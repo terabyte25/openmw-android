@@ -97,7 +97,7 @@ if (${BUILD_TYPE} STREQUAL "debug")
 	set(ffmpeg_configure_flags ${ffmpeg_configure_flags} --disable-asm --disable-optimizations)
 endif()
 
-if ((${ARCH} STREQUAL "x86_64") OR (${ARCH} STREQUAL "x86"))
+if ((${ARCH} STREQUAL "x86_64") OR (${ARCH} STREQUAL "x86") OR (${ARCH} STREQUAL "arm"))
 	# ffmpeg fails to link with assembly optimizations on x86-64
 	set(ffmpeg_configure_flags ${ffmpeg_configure_flags} --disable-asm)
 endif()
@@ -185,6 +185,7 @@ ExternalProject_Add(boost
 	BUILD_IN_SOURCE 1
 
 	PATCH_COMMAND patch -d <SOURCE_DIR> -p2 -t -N < ${CMAKE_SOURCE_DIR}/patches/boost-fix13172.diff
+	COMMAND patch -d <SOURCE_DIR>/libs/filesystem -p1 -t -N < ${CMAKE_SOURCE_DIR}/patches/boost-filesystem-pull-69.patch
 
 	CONFIGURE_COMMAND ${wrapper_command} <SOURCE_DIR>/bootstrap.sh
 	--prefix=${prefix}

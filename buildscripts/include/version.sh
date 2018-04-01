@@ -1,7 +1,7 @@
 #!/bin/bash
 
-NDK_VERSION="r16b"
-NDK_HASH="bcdea4f5353773b2ffa85b5a9a2ae35544ce88ec5b507301d8cf6a76b765d901"
+NDK_VERSION="r17-beta1"
+NDK_HASH="a93a2096de950403c2eca46796e8cbe43498ef04a140194ba540f4f883037711"
 ANDROID_API="21"
 
 # End of configurable options
