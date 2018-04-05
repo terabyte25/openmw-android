@@ -207,8 +207,13 @@ public class SDLActivity extends Activity {
 
         // Set up the surface
         mSurface = new SDLSurface(getApplication());
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+             mSurface.setLayoutParams(params);
 
         mLayout = new RelativeLayout(this);
+        mLayout.setBackgroundColor(Color.BLACK);
         mLayout.addView(mSurface);
 
         setContentView(mLayout);
@@ -1123,6 +1128,7 @@ class SDLSurface extends SurfaceView implements SurfaceHolder.Callback,
     // Startup
     public SDLSurface(Context context) {
         super(context);
+        getHolder().setFixedSize(640, 480);
         getHolder().addCallback(this);
 
         setFocusable(true);

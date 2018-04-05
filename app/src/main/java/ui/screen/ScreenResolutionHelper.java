@@ -23,8 +23,8 @@ public class ScreenResolutionHelper {
     }
 
     public void writeScreenResolution() throws IOException {
-        file.Writer.write(String.valueOf(screenWidth), ConfigsFileStorageHelper.SETTINGS_CFG, "resolution x");
-        file.Writer.write(String.valueOf(screenHeight), ConfigsFileStorageHelper.SETTINGS_CFG, "resolution y");
+        file.Writer.write(String.valueOf(640), ConfigsFileStorageHelper.SETTINGS_CFG, "resolution x");
+        file.Writer.write(String.valueOf(480), ConfigsFileStorageHelper.SETTINGS_CFG, "resolution y");
     }
 
 }
