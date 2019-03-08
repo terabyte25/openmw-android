@@ -7,6 +7,9 @@ import android.widget.Button
 import android.widget.RelativeLayout
 import org.libsdl.app.SDLActivity
 
+import android.preference.PreferenceManager
+import org.libsdl.app.SDLActivity.getContext
+
 class OskTouchListener(val btn: OskButton): View.OnTouchListener {
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
@@ -155,25 +158,26 @@ class Osk {
     /* Every key is defined by two characters, first is input normally, second is input when shift is active
      * Note: This is only the "middle" part of the virtual keyboard
      */
-    private val keyboardLayout = arrayListOf(
-        "1!2@3#4$5%6^7&8*9(0)-_=+",
-        "qQwWeErRtTyYuUiIoOpP[{]}\\|",
-        "aAsSdDfFgGhHjJkKlL;:'\"",
-        "zZxXcCvVbBnNmM,<.>/?"
-    )
 
     private var elements = ArrayList<OskButton>()
 
     private var visible = false
 
     init {
+        placeKeyboard(PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("russian", false))
+    }
+    fun placeKeyboard(isRussian: Boolean) {
         val buttonWidth = 60
         val buttonHeight = 100
         val buttonMarginX = 3
         val buttonMarginY = 1
-        val offsetX = 30
+        val offsetX: Int
+        if( isRussian )
+            offsetX = 0
+        else
+            offsetX = 30
         val offsetY = 110
-
+        var keyboardLayout: ArrayList<String>;
         var curX: Int
         var curY = offsetY
 
@@ -183,7 +187,21 @@ class Osk {
             (offsetX + buttonWidth * 1.0 + buttonMarginX).toInt(),
             (offsetX + buttonWidth * 1.5 + buttonMarginX).toInt()
         )
-
+        if( isRussian ) {
+            keyboardLayout = arrayListOf(
+                "1!2@3#4$5%6^7&8*9(0)-_=+",
+                "йЙцЦуУкКеЕнНгГшШщЩзЗхХ[{]}\\|",
+                "фФыЫвВаАпПрРоОлЛдДжЖэЭ;:'\"",
+                "яЯчЧсСмМиИтТьЬбБюЮ,<.>/?"
+            )
+        } else {
+            keyboardLayout = arrayListOf(
+                "1!2@3#4$5%6^7&8*9(0)-_=+",
+                "qQwWeErRtTyYuUiIoOpP[{]}\\|",
+                "aAsSdDfFgGhHjJkKlL;:'\"",
+                "zZxXcCvVbBnNmM,<.>/?"
+            )
+        }
         val simpleButtons = ArrayList<OskSimpleButton>()
         keyboardLayout.forEachIndexed{ i, line ->
             curX = lineOffset[i]
@@ -224,6 +242,8 @@ class Osk {
 
         // Arrows
         var arrowsCurX = lineOffset[3] + (buttonWidth + buttonMarginX) * keyboardLayout[3].length / 2 + buttonWidth
+        if(PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("russian", false))
+            arrowsCurX -= 15
         var arrowsCurY = offsetY + (buttonHeight + buttonMarginY) * 3
         elements.add(OskRawButton("↑", KeyEvent.KEYCODE_DPAD_UP, arrowsCurX, arrowsCurY, buttonWidth, buttonHeight))
         arrowsCurX -= buttonWidth + buttonMarginX

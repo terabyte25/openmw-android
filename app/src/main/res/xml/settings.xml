@@ -23,6 +23,11 @@
             android:key="screen_keeper"
             android:summary="Keep screen always on"
             android:title="Screen" />
+        
+        <CheckBoxPreference
+            android:key="russian"
+            android:summary="Enable russian keyboard"
+            android:title="Russian keyboard" />
 
 
     </PreferenceCategory>
