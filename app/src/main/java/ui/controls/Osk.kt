@@ -151,6 +151,19 @@ class OskShift(val buttons: ArrayList<OskSimpleButton>, positionX: Int, position
     }
 }
 
+class OskCaps(val buttons: ArrayList<OskSimpleButton>, positionX: Int, positionY: Int, sizeW: Int, sizeH: Int):
+    OskButton("Caps Lock", positionX, positionY, sizeW, sizeH) {
+    
+    private var state = false
+
+    override fun pressed() {
+        state = !state
+        for (btn in buttons)
+            btn.shift(state)
+    }
+
+}
+
 class Osk {
     /* Every key is defined by two characters, first is input normally, second is input when shift is active
      * Note: This is only the "middle" part of the virtual keyboard
@@ -180,7 +193,7 @@ class Osk {
         val lineOffset = arrayOf(
             (offsetX + buttonWidth * 1.0 + buttonMarginX).toInt(),
             (offsetX + buttonWidth * 0.5 + buttonMarginX).toInt(),
-            (offsetX + buttonWidth * 1.0 + buttonMarginX).toInt(),
+            (offsetX + buttonWidth * 1.25 + buttonMarginX).toInt(),
             (offsetX + buttonWidth * 1.5 + buttonMarginX).toInt()
         )
 
@@ -198,6 +211,9 @@ class Osk {
 
         // Shift
         elements.add(OskShift(simpleButtons, offsetX, offsetY + 3 * (buttonHeight + buttonMarginY), (buttonWidth * 1.5).toInt(), buttonHeight))
+
+        // Capslock
+        elements.add(OskCaps(simpleButtons, offsetX, offsetY + 2 * (buttonHeight + buttonMarginY), (buttonWidth * 1.25).toInt(), buttonHeight))
 
         // Backspace
         elements.add(OskRawButton(
